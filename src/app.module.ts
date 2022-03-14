@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { User } from "./users/users.model";
 import { UsersModule } from "./users/users.module";
 
 require("dotenv").config();
@@ -13,7 +14,7 @@ require("dotenv").config();
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [],
+      entities: [User],
       synchronize: true,
       autoLoadEntities: true,
     }),
