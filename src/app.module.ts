@@ -1,7 +1,9 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { User } from "./users/users.model";
+import { User } from "./users/users.entity";
 import { UsersModule } from "./users/users.module";
+import { AuthModule } from "./auth/auth.module";
+import { JwtModule } from "@nestjs/jwt";
 
 require("dotenv").config();
 
@@ -19,6 +21,7 @@ require("dotenv").config();
       autoLoadEntities: true,
     }),
     UsersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
