@@ -33,6 +33,7 @@ export class AuthController {
     const cookie = this.authService.getCookieWithJwtToken(user.id);
     response.setHeader("Set-Cookie", cookie);
     user.password = undefined;
+    user.email = undefined;
     return response.send(user);
   }
 
@@ -59,6 +60,7 @@ export class AuthController {
   authenticate(@Req() request: RequestWithUser) {
     const user = request.user;
     user.password = undefined;
+    user.email = undefined;
     return user;
   }
 }

@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { GetGroupDto } from "src/group/dto/getGroupDto.dto";
 
 export class GetUserDto {
   @ApiProperty({
@@ -8,8 +9,21 @@ export class GetUserDto {
   readonly id: number;
 
   @ApiProperty({
-    example: "user@mail.ru",
-    description: "Адрес электронной почты",
+    example: "ponchik009",
+    description: "Имя (никнейм)",
   })
-  readonly email: string;
+  readonly name: string;
+
+  @ApiProperty({
+    example: [
+      {
+        id: 1,
+        name: "Сообщество 1",
+        descrtiption: "Крутое сообщвество для крутых парней",
+        isOpen: true,
+      },
+    ],
+    description: "Сообщества пользователя",
+  })
+  readonly groups: GetGroupDto[];
 }
