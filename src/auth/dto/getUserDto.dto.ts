@@ -6,6 +6,7 @@ export class GetUserDto {
     description: "Уникальный идентификатор",
   })
   readonly id: number;
+
   @ApiProperty({
     example: "user@mail.ru",
     description: "Адрес электронной почты",

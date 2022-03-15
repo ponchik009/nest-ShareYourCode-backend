@@ -3,7 +3,8 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { User } from "./users/users.entity";
 import { UsersModule } from "./users/users.module";
 import { AuthModule } from "./auth/auth.module";
-import { JwtModule } from "@nestjs/jwt";
+import { GroupModule } from "./group/group.module";
+import { Group } from "./group/group.entity";
 
 require("dotenv").config();
 
@@ -16,12 +17,13 @@ require("dotenv").config();
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [User],
+      entities: [User, Group],
       synchronize: true,
       autoLoadEntities: true,
     }),
     UsersModule,
     AuthModule,
+    GroupModule,
   ],
   controllers: [],
   providers: [],

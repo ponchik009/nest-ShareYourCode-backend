@@ -12,7 +12,7 @@ import { Response } from "express";
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { CreateUserDto } from "src/users/dto/CreateUserDto";
 import { AuthService } from "./auth.service";
-import { GetUserDto } from "./dto/getUser.dto";
+import { GetUserDto } from "./dto/getUserDto.dto";
 import { LocalAuthenticationGuard } from "./guard/localAuthGuard.guard";
 import RequestWithUser from "./interface/requestWithUser.interface";
 import JwtAuthenticationGuard from "./guard/jwtAuthGuard.guard";
