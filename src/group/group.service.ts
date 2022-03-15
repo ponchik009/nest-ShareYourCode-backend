@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/users/users.entity";
 import { Repository } from "typeorm";
@@ -26,5 +26,17 @@ export class GroupService {
       .leftJoin("group.members", "user")
       .where("group.isOpen = true")
       .getMany();
+  }
+
+  async getById(id: number) {
+    const group = await this.groupRepository.findOne(id, {
+      relations: ["admin"],
+    });
+
+    if (!group) {
+      throw new HttpException("Группа не найдена!", HttpStatus.NOT_FOUND);
+    }
+
+    return group;
   }
 }

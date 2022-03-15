@@ -18,20 +18,13 @@ export class AuthService {
   async register(userDto: CreateUserDto) {
     const hashedPassword = await hash(userDto.password, 10);
 
-    try {
-      const createdUser = await this.userService.createUser({
-        ...userDto,
-        password: hashedPassword,
-      });
+    const createdUser = await this.userService.createUser({
+      ...userDto,
+      password: hashedPassword,
+    });
 
-      createdUser.password = undefined;
-      return createdUser;
-    } catch (error) {
-      throw new HttpException(
-        "Something went wrong",
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
-    }
+    createdUser.password = undefined;
+    return createdUser;
   }
 
   public async getAuthenticatedUser(email: string, plainTextPassword: string) {

@@ -8,5 +8,6 @@ import { GroupService } from "./group.service";
   controllers: [GroupController],
   providers: [GroupService],
   imports: [TypeOrmModule.forFeature([Group])],
+  exports: [GroupService],
 })
 export class GroupModule {}

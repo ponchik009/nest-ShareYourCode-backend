@@ -1,4 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { truncate } from "fs";
+import { Tred } from "src/tred/tred.entity";
 import { User } from "src/users/users.entity";
 import {
   Column,
@@ -6,6 +8,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 
@@ -54,4 +57,19 @@ export class Group {
   @ManyToMany(() => User, (user: User) => user.groups)
   @JoinTable()
   members: User[];
+
+  @ApiProperty({
+    example: {
+      id: 1,
+      name: "Сообщество 1",
+      descrtiption: "Крутое сообщвество для крутых парней",
+      isPublic: true,
+      isOpen: true,
+      maxPackages: 10,
+      closeDate: new Date(),
+    },
+    description: "Треды сообщества",
+  })
+  @OneToMany(() => Tred, (tred: Tred) => tred.group)
+  treds: Tred[];
 }

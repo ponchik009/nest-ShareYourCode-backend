@@ -12,7 +12,14 @@ export class UsersService {
 
   async createUser(dto: CreateUserDto) {
     const user = this.userRepository.create(dto);
-    await this.userRepository.save(user);
+    try {
+      await this.userRepository.save(user);
+    } catch (error) {
+      throw new HttpException(
+        "Пользователь с таким email уже зарегестрирован!",
+        HttpStatus.BAD_REQUEST
+      );
+    }
     return user;
   }
 
