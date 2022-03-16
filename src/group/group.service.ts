@@ -29,14 +29,11 @@ export class GroupService {
   }
 
   async getGroup(id: number, user: User) {
-    const group = await this.groupRepository
-      .createQueryBuilder("group")
-      .select(["group", "user.name", "user.id"])
-      .leftJoin("group.members", "user")
-      .where("group.id = :id", {
-        id,
-      })
-      .getOne();
+    const group = await this.groupRepository.findOne(id, {
+      relations: ["admin", "members"],
+    });
+
+    console.log(group);
 
     if (!group) {
       throw new HttpException("Группа не найдена!", HttpStatus.NOT_FOUND);
@@ -48,13 +45,6 @@ export class GroupService {
         HttpStatus.FORBIDDEN
       );
     }
-
-    // СУПЕРКОСТЫЛь
-    group.admin = (
-      await this.groupRepository.findOne(id, { relations: ["admin"] })
-    ).admin;
-    group.admin.email = undefined;
-    group.admin.password = undefined;
 
     return group;
   }

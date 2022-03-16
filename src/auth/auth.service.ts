@@ -34,6 +34,8 @@ export class AuthService {
       await this.verifyPassword(plainTextPassword, user.password);
       return user;
     } catch (error) {
+      console.log(error);
+
       throw new HttpException(
         "Wrong credentials provided",
         HttpStatus.BAD_REQUEST

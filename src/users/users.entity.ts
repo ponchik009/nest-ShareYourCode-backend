@@ -18,7 +18,7 @@ export class User {
     example: "user@mail.ru",
     description: "Адрес электронной почты",
   })
-  @Column({ unique: true, nullable: false })
+  @Column({ unique: true, nullable: false, select: false })
   email: string;
 
   @ApiProperty({
@@ -29,7 +29,7 @@ export class User {
   name: string;
 
   @ApiProperty({ example: "qwerty", description: "Пароль" })
-  @Column({ nullable: false })
+  @Column({ nullable: false, select: false })
   password: string;
 
   @ApiProperty({

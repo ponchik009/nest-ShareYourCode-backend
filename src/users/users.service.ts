@@ -24,10 +24,17 @@ export class UsersService {
   }
 
   async getByEmail(email: string) {
-    const user = await this.userRepository.findOne(
-      { email },
-      { relations: ["groups"] }
-    );
+    // const user = await this.userRepository.findOne(
+    //   { email },
+    //   { relations: ["groups"] }
+    // );
+
+    const user = await this.userRepository
+      .createQueryBuilder("user")
+      .select(["user.id", "user.name", "user.password", "group"])
+      .leftJoin("user.groups", "group")
+      .where("user.email = :email", { email })
+      .getOne();
 
     if (!user) {
       throw new HttpException("User not found", HttpStatus.NOT_FOUND);
