@@ -16,4 +16,10 @@ export class TredController {
   async create(@Body() dto: CreateTredDto, @Req() req: RequestWithUser) {
     return await this.tredService.create(dto, req.user);
   }
+
+  @ApiOperation({ summary: "Получение тредов сообщества" })
+  @ApiResponse({ status: 200 })
+  @UseGuards(JwtAuthenticationGuard)
+  @Post()
+  async getTreds() {}
 }

@@ -14,7 +14,7 @@ export class TredService {
   ) {}
 
   async create(dto: CreateTredDto, user: User) {
-    const group = await this.groupService.getById(dto.groupId);
+    const group = await this.groupService.getGroup(dto.groupId, user);
 
     if (group.admin.id !== user.id) {
       throw new HttpException("Не хватает доступа", HttpStatus.FORBIDDEN);
