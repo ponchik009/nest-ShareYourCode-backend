@@ -24,11 +24,6 @@ export class UsersService {
   }
 
   async getByEmail(email: string) {
-    // const user = await this.userRepository.findOne(
-    //   { email },
-    //   { relations: ["groups"] }
-    // );
-
     const user = await this.userRepository
       .createQueryBuilder("user")
       .select(["user.id", "user.name", "user.password", "group"])

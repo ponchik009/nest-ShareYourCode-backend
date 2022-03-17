@@ -23,10 +23,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: TokenPayload): Promise<User> {
+  async validate(payload: TokenPayload) {
     const user = await this.userService.getById(payload.userId);
-    user.email = undefined;
-    user.password = undefined;
     return user;
   }
 }
