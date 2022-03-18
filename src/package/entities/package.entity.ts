@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { Comment } from "src/comment/comment.entity";
 import { Group } from "src/group/group.entity";
 import { Tred } from "src/tred/tred.entity";
 import { User } from "src/users/users.entity";
@@ -8,6 +9,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Language } from "./language.entity";
@@ -73,4 +75,16 @@ export class Package {
   })
   @Column({ nullable: false })
   date: Date;
+
+  @ApiProperty({
+    example: [
+      {
+        id: 1,
+        name: "python",
+      },
+    ],
+    description: "Язык, на котором написан код",
+  })
+  @OneToMany(() => Comment, (comment: Comment) => comment.pack)
+  comments: Comment[];
 }

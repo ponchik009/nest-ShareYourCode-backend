@@ -10,6 +10,8 @@ import { Tred } from "./tred/tred.entity";
 import { PackageModule } from "./package/package.module";
 import { Package } from "./package/entities/package.entity";
 import { Language } from "./package/entities/language.entity";
+import { CommentModule } from "./comment/comment.module";
+import { Comment } from "./comment/comment.entity";
 
 require("dotenv").config();
 
@@ -22,7 +24,7 @@ require("dotenv").config();
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [User, Group, Tred, Package, Language],
+      entities: [User, Group, Tred, Package, Language, Comment],
       synchronize: true,
       autoLoadEntities: true,
     }),
@@ -31,6 +33,7 @@ require("dotenv").config();
     GroupModule,
     TredModule,
     PackageModule,
+    CommentModule,
   ],
   controllers: [],
   providers: [],

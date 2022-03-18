@@ -42,7 +42,7 @@ export class PackageService {
 
   async getById(id: number) {
     const pack = this.packageRepository.findOne(id, {
-      relations: ["user", "tred", "language"],
+      relations: ["user", "tred", "language", "comments"],
     });
 
     if (!pack) {

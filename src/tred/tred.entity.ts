@@ -87,12 +87,16 @@ export class Tred {
   @ApiProperty({
     example: [
       {
-        id: 1,
-        date: "Tue, 15 Mar 2022 06:25:11 GMT",
+        id: 5,
+        code: "print(1)",
+        review: null,
+        date: "2022-03-18T13:43:59.425Z",
       },
       {
-        id: 2,
-        date: "Tue, 15 Mar 2022 06:25:11 GMT",
+        id: 6,
+        code: "print(1)",
+        review: null,
+        date: "2022-03-18T13:43:59.425Z",
       },
     ],
     description: "Посылки треда",

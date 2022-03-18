@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { Comment } from "src/comment/comment.entity";
 import { Group } from "src/group/group.entity";
 import { Package } from "src/package/entities/package.entity";
 import {
@@ -47,16 +48,36 @@ export class User {
   @ApiProperty({
     example: [
       {
-        id: 1,
-        date: "Tue, 15 Mar 2022 06:25:11 GMT",
+        id: 5,
+        code: "print(1)",
+        review: null,
+        date: "2022-03-18T13:43:59.425Z",
       },
       {
-        id: 2,
-        date: "Tue, 15 Mar 2022 06:25:11 GMT",
+        id: 6,
+        code: "print(1)",
+        review: null,
+        date: "2022-03-18T13:43:59.425Z",
       },
     ],
     description: "Посылки пользователя",
   })
   @OneToMany(() => Package, (pack: Package) => pack.user)
   packages: Package[];
+
+  @ApiProperty({
+    example: [
+      {
+        id: 1,
+        name: "О, да",
+      },
+      {
+        id: 2,
+        name: "Это ужасно",
+      },
+    ],
+    description: "Комментарии пользователя",
+  })
+  @OneToMany(() => Comment, (comment: Comment) => comment.user)
+  comments: Comment[];
 }
