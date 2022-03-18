@@ -70,6 +70,6 @@ export class Group {
     },
     description: "Треды сообщества",
   })
-  @OneToMany(() => Tred, (tred: Tred) => tred.group)
+  @OneToMany(() => Tred, (tred: Tred) => tred.group, { onDelete: "CASCADE" })
   treds: Tred[];
 }

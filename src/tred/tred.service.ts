@@ -19,6 +19,7 @@ export class TredService {
 
     const tred = this.tredRepository.create({
       ...dto,
+      group,
     });
     await this.tredRepository.save(tred);
     return tred;

@@ -3,6 +3,7 @@ import { Group } from "src/group/group.entity";
 import { Package } from "src/package/entities/package.entity";
 import { User } from "src/users/users.entity";
 import {
+  AfterLoad,
   Column,
   Entity,
   JoinTable,
@@ -14,6 +15,13 @@ import {
 
 @Entity()
 export class Tred {
+  @AfterLoad()
+  checkDate() {
+    if (this.closeDate && this.closeDate <= new Date(Date.now())) {
+      this.isOpen = false;
+    }
+  }
+
   @ApiProperty({ example: 1, description: "Уникальный идентификатор" })
   @PrimaryGeneratedColumn()
   id: number;
@@ -71,7 +79,9 @@ export class Tred {
     },
     description: "Группа, в которой находится тред",
   })
-  @ManyToOne(() => Group, (group: Group) => group.treds)
+  @ManyToOne(() => Group, (group: Group) => group.treds, {
+    onDelete: "CASCADE",
+  })
   group: Group;
 
   @ApiProperty({
