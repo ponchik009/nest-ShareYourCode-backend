@@ -9,5 +9,6 @@ import { TredService } from "./tred.service";
   controllers: [TredController],
   providers: [TredService],
   imports: [TypeOrmModule.forFeature([Tred]), GroupModule],
+  exports: [TredService],
 })
 export class TredModule {}
