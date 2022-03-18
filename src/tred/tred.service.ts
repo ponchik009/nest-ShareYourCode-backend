@@ -44,4 +44,15 @@ export class TredService {
 
     return tred;
   }
+
+  async getTredWithRights(tredId: number, user: User) {
+    const tred = await this.getById(tredId);
+    // костыль?
+    const group = await this.groupService.getGroupWithRights(
+      tred.group.id,
+      user
+    );
+
+    return tred;
+  }
 }

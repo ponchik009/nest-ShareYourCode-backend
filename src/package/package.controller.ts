@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Patch,
   Post,
   Req,
   UseGuards,
@@ -10,6 +11,7 @@ import {
 import { ApiOperation, ApiResponse } from "@nestjs/swagger";
 import JwtAuthenticationGuard from "src/auth/guard/jwtAuthGuard.guard";
 import RequestWithUser from "src/auth/interface/requestWithUser.interface";
+import { AddReviewDto } from "./dto/addReviewDto.dto";
 import { CreatePackageDto } from "./dto/createPackageDto.dto";
 import { PackageService } from "./package.service";
 
@@ -23,6 +25,14 @@ export class PackageController {
   @Post()
   async create(@Body() dto: CreatePackageDto, @Req() req: RequestWithUser) {
     return await this.packageService.create(dto, req.user);
+  }
+
+  @ApiOperation({ summary: "Добавление ревью кода" })
+  @ApiResponse({ status: 200 })
+  @UseGuards(JwtAuthenticationGuard)
+  @Patch("/review")
+  async addReview(@Body() dto: AddReviewDto, @Req() req: RequestWithUser) {
+    return await this.packageService.addReview(dto, req.user);
   }
 
   @ApiOperation({ summary: "Получение посылки" })

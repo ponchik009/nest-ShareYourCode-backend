@@ -1,8 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { GroupService } from "src/group/group.service";
 import { TredService } from "src/tred/tred.service";
 import { User } from "src/users/users.entity";
 import { Repository } from "typeorm";
+import { AddReviewDto } from "./dto/addReviewDto.dto";
 import { CreatePackageDto } from "./dto/createPackageDto.dto";
 import { Package } from "./entities/package.entity";
 
@@ -15,6 +17,7 @@ export class PackageService {
 
   async create(dto: CreatePackageDto, user: User) {
     const tred = await this.tredService.getTred(dto.tredId, user);
+
     if (!tred.isOpen) {
       throw new HttpException("Тред уже закрыт!", HttpStatus.BAD_REQUEST);
     }
@@ -34,8 +37,17 @@ export class PackageService {
     const pack = await this.getById(id);
 
     if (!pack.tred.isPublic && user.id !== pack.user.id) {
-      throw new HttpException("Не хватает доступа!", HttpStatus.FORBIDDEN);
+      // проверка на админа
+      const tred = await this.tredService.getTredWithRights(pack.tred.id, user);
     }
+
+    return pack;
+  }
+
+  async getPackageWithRights(id: number, user: User) {
+    const pack = await this.getById(id);
+
+    const tred = await this.tredService.getTredWithRights(pack.tred.id, user);
 
     return pack;
   }
@@ -48,6 +60,15 @@ export class PackageService {
     if (!pack) {
       throw new HttpException("Посылка не найдена!", HttpStatus.NOT_FOUND);
     }
+
+    return pack;
+  }
+
+  async addReview(dto: AddReviewDto, user: User) {
+    const pack = await this.getPackageWithRights(dto.id, user);
+    pack.review = dto.review;
+
+    await this.packageRepository.save(pack);
 
     return pack;
   }
