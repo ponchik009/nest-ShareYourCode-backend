@@ -1,10 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Group } from "src/group/group.entity";
+import { Package } from "src/package/entities/package.entity";
 import {
   Column,
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 
@@ -41,4 +43,20 @@ export class User {
   })
   @ManyToMany(() => Group, (group: Group) => group.members)
   groups: Group[];
+
+  @ApiProperty({
+    example: [
+      {
+        id: 1,
+        date: "Tue, 15 Mar 2022 06:25:11 GMT",
+      },
+      {
+        id: 2,
+        date: "Tue, 15 Mar 2022 06:25:11 GMT",
+      },
+    ],
+    description: "Посылки пользователя",
+  })
+  @OneToMany(() => Package, (pack: Package) => pack.user)
+  packages: Package[];
 }

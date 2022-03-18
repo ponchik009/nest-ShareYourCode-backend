@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Group } from "src/group/group.entity";
+import { Package } from "src/package/entities/package.entity";
 import { User } from "src/users/users.entity";
 import {
   Column,
@@ -7,6 +8,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 
@@ -71,4 +73,20 @@ export class Tred {
   })
   @ManyToOne(() => Group, (group: Group) => group.treds)
   group: Group;
+
+  @ApiProperty({
+    example: [
+      {
+        id: 1,
+        date: "Tue, 15 Mar 2022 06:25:11 GMT",
+      },
+      {
+        id: 2,
+        date: "Tue, 15 Mar 2022 06:25:11 GMT",
+      },
+    ],
+    description: "Посылки треда",
+  })
+  @OneToMany(() => Package, (pack: Package) => pack.tred)
+  packages: Package[];
 }

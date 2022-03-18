@@ -43,7 +43,7 @@ export class GroupService {
 
   async getById(id: number) {
     const group = await this.groupRepository.findOne(id, {
-      relations: ["admin", "members"],
+      relations: ["admin", "members", "treds"],
     });
 
     if (!group) {
@@ -121,7 +121,7 @@ export class GroupService {
     return group;
   }
 
-  private async getGroupWithRights(groupId: number, user: User) {
+  public async getGroupWithRights(groupId: number, user: User) {
     const group = await this.getGroup(groupId, user);
 
     if (group.admin.id !== user.id) {

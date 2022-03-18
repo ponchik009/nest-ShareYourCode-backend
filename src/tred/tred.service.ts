@@ -14,16 +14,33 @@ export class TredService {
   ) {}
 
   async create(dto: CreateTredDto, user: User) {
-    const group = await this.groupService.getGroup(dto.groupId, user);
-
-    if (group.admin.id !== user.id) {
-      throw new HttpException("Не хватает доступа", HttpStatus.FORBIDDEN);
-    }
+    // костыль?
+    const group = await this.groupService.getGroupWithRights(dto.groupId, user);
 
     const tred = this.tredRepository.create({
       ...dto,
     });
     await this.tredRepository.save(tred);
+    return tred;
+  }
+
+  async getTred(tredId: number, user: User) {
+    const tred = await this.getById(tredId);
+    // костыль?
+    const group = await this.groupService.getGroup(tred.group.id, user);
+
+    return tred;
+  }
+
+  async getById(tredId: number) {
+    const tred = await this.tredRepository.findOne(tredId, {
+      relations: ["packages", "group"],
+    });
+
+    if (!tred) {
+      throw new HttpException("Тред не найден!", HttpStatus.NOT_FOUND);
+    }
+
     return tred;
   }
 }

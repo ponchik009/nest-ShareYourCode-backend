@@ -7,6 +7,8 @@ import { GroupModule } from "./group/group.module";
 import { Group } from "./group/group.entity";
 import { TredModule } from "./tred/tred.module";
 import { Tred } from "./tred/tred.entity";
+import { PackageModule } from "./package/package.module";
+import { Package } from "./package/entities/package.entity";
 
 require("dotenv").config();
 
@@ -19,7 +21,7 @@ require("dotenv").config();
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [User, Group, Tred],
+      entities: [User, Group, Tred, Package],
       synchronize: true,
       autoLoadEntities: true,
     }),
@@ -27,6 +29,7 @@ require("dotenv").config();
     AuthModule,
     GroupModule,
     TredModule,
+    PackageModule,
   ],
   controllers: [],
   providers: [],
