@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/users/users.entity";
+import { UsersService } from "src/users/users.service";
 import { Repository } from "typeorm";
 import { CreateGroupDto } from "./dto/createGrouDto.dto";
 import { Group } from "./group.entity";
@@ -8,7 +9,8 @@ import { Group } from "./group.entity";
 @Injectable()
 export class GroupService {
   constructor(
-    @InjectRepository(Group) private groupRepository: Repository<Group>
+    @InjectRepository(Group) private groupRepository: Repository<Group>,
+    private userService: UsersService
   ) {}
 
   async create(dto: CreateGroupDto, admin: User) {
@@ -53,20 +55,51 @@ export class GroupService {
     return group;
   }
 
-  async enterTheGroup(groupId: number, user: User) {
-    const group = await this.getById(groupId);
+  async enterTheGroup(group: number | Group, user: User) {
+    const groupFromDb =
+      typeof group === "number" ? await this.getById(group) : group;
 
-    if (group.members.some((member) => member.id === user.id)) {
+    if (groupFromDb.members.some((member) => member.id === user.id)) {
       throw new HttpException(
         "Пользователь уже состоит в сообществе!",
         HttpStatus.BAD_REQUEST
       );
     }
 
-    group.members.push(user);
-    await this.groupRepository.save(group);
+    groupFromDb.members.push(user);
+    await this.groupRepository.save(groupFromDb);
+    return groupFromDb;
+  }
 
-    return group;
+  async enterThePublicGroup(groupId: number, user: User) {
+    const group = await this.getGroup(groupId, user);
+
+    if (!group.isOpen) {
+      throw new HttpException(
+        "Группа закрытая, в нее нельзя вступить!",
+        HttpStatus.FORBIDDEN
+      );
+    }
+
+    return await this.enterTheGroup(groupId, user);
+  }
+
+  async inviteToTheGroup(groupId: number, admin: User, user: User) {
+    const group = await this.getGroupWithRights(groupId, admin);
+    const userFromDB = await this.userService.getById(user.id);
+
+    if (!userFromDB.isPublic) {
+      throw new HttpException(
+        "Пользователь имеет закрытый аккаунт, его нельзя приглашать в сообщества",
+        HttpStatus.FORBIDDEN
+      );
+    }
+
+    return await this.enterTheGroup(group, {
+      id: userFromDB.id,
+      name: userFromDB.name,
+      isPublic: userFromDB.isPublic,
+    } as User);
   }
 
   async leaveTheGroup(groupId: number, user: User) {

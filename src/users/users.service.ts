@@ -32,7 +32,7 @@ export class UsersService {
       .getOne();
 
     if (!user) {
-      throw new HttpException("User not found", HttpStatus.NOT_FOUND);
+      throw new HttpException("Пользователь не найден!", HttpStatus.NOT_FOUND);
     }
 
     return user;
@@ -44,7 +44,7 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new HttpException("User not found", HttpStatus.NOT_FOUND);
+      throw new HttpException("Пользователь не найден!", HttpStatus.NOT_FOUND);
     }
 
     return user;

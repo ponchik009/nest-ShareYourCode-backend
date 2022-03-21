@@ -38,7 +38,7 @@ export class AuthService {
       console.log(error);
 
       throw new HttpException(
-        "Wrong credentials provided",
+        "Неверные данные для входа",
         HttpStatus.BAD_REQUEST
       );
     }
@@ -51,7 +51,7 @@ export class AuthService {
     const isPasswordMatching = await compare(plainTextPassword, hashedPassword);
     if (!isPasswordMatching) {
       throw new HttpException(
-        "Wrong credentials provided",
+        "Неверные данные для входа",
         HttpStatus.BAD_REQUEST
       );
     }

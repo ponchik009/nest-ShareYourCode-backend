@@ -46,10 +46,20 @@ export class GroupController {
   @UseGuards(JwtAuthenticationGuard)
   @Patch("/enter/:id")
   async enterTheGroup(@Req() req, @Param("id") id: number) {
-    const group = await this.groupService.enterTheGroup(id, {
-      id: req.user.id,
-      name: req.user.name,
-    } as User);
+    const group = await this.groupService.enterThePublicGroup(id, req.user);
+    return group;
+  }
+
+  @ApiOperation({ summary: "Приглашение в сообщество" })
+  @ApiResponse({ status: 200 })
+  @UseGuards(JwtAuthenticationGuard)
+  @Patch("/invite/:id")
+  async inviteToTheGroup(
+    @Req() req,
+    @Param("id") id: number,
+    @Body() user: User
+  ) {
+    const group = await this.groupService.inviteToTheGroup(id, req.user, user);
     return group;
   }
 

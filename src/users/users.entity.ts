@@ -35,6 +35,10 @@ export class User {
   @Column({ nullable: false, select: false })
   password: string;
 
+  @ApiProperty({ example: true, description: "Является ли аккаунт публичным" })
+  @Column({ nullable: false, default: true })
+  isPublic: boolean;
+
   @ApiProperty({
     example: [
       { id: 1, name: "Сообщество 1" },
