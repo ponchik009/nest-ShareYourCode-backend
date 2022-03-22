@@ -5,6 +5,7 @@ import { UsersService } from "src/users/users.service";
 import { Repository } from "typeorm";
 import { CreateGroupDto } from "./dto/createGrouDto.dto";
 import { Group } from "./group.entity";
+import { v4 as uuidv4 } from "uuid";
 
 @Injectable()
 export class GroupService {
@@ -72,7 +73,7 @@ export class GroupService {
   }
 
   async enterThePublicGroup(groupId: number, user: User) {
-    const group = await this.getGroup(groupId, user);
+    const group = await this.getById(groupId);
 
     if (!group.isOpen) {
       throw new HttpException(
@@ -82,6 +83,34 @@ export class GroupService {
     }
 
     return await this.enterTheGroup(groupId, user);
+  }
+
+  async enterFromLink(link: string, user: User) {
+    const group = await this.groupRepository.findOne(
+      { inviteLink: link },
+      { relations: ["members"] }
+    );
+
+    if (!group) {
+      throw new HttpException("Сообщество не найдено!", HttpStatus.NOT_FOUND);
+    }
+    if (group.inviteLinkEndDate < new Date(Date.now())) {
+      throw new HttpException("Ссылка просрочена!", HttpStatus.NOT_FOUND);
+    }
+
+    const newGroup = await this.enterTheGroup(group, user);
+    return newGroup;
+  }
+
+  async generateLink(id: number, user: User) {
+    const group = await this.getGroupWithRights(id, user);
+
+    group.inviteLink = uuidv4();
+    group.inviteLinkEndDate = new Date(Date.now() + 3600 * 24 * 3 * 1000); // ms
+
+    await this.groupRepository.save(group);
+
+    return group;
   }
 
   async inviteToTheGroup(groupId: number, admin: User, user: User) {

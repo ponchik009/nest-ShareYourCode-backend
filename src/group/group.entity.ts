@@ -41,6 +41,20 @@ export class Group {
   isOpen: boolean;
 
   @ApiProperty({
+    example: "uuuu-aaaa-bbbb-cccc",
+    description: "Пригласительная ссылка",
+  })
+  @Column({ nullable: true, unique: true })
+  inviteLink: string;
+
+  @ApiProperty({
+    example: "Tue, 15 Mar 2022 06:25:11 GMT",
+    description: "Дата окончания действия ссылки",
+  })
+  @Column({ nullable: true })
+  inviteLinkEndDate: Date;
+
+  @ApiProperty({
     example: { id: 1, email: "123@mail.ru" },
     description: "Администратор сообщества",
   })
