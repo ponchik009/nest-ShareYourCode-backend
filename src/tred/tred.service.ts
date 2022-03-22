@@ -34,9 +34,16 @@ export class TredService {
   }
 
   async getById(tredId: number) {
-    const tred = await this.tredRepository.findOne(tredId, {
-      relations: ["packages", "group"],
-    });
+    const tred = await this.tredRepository
+      .createQueryBuilder("tred")
+      .select(["tred", "group", "package", "user"])
+      .leftJoin("tred.group", "group")
+      .leftJoin("tred.packages", "package")
+      .leftJoin("package.user", "user")
+      .where({ id: tredId })
+      .getOne();
+
+    console.log(tred);
 
     if (!tred) {
       throw new HttpException("Тред не найден!", HttpStatus.NOT_FOUND);
