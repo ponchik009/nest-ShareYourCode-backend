@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { GetUserDto } from "src/auth/dto/getUserDto.dto";
+import { GetUsernameDto } from "src/auth/dto/getUsernameDto.dto";
 
 export class GetPublicGroupDto {
   @ApiProperty({
@@ -36,5 +37,5 @@ export class GetPublicGroupDto {
     ],
     description: "Члены сообщества",
   })
-  readonly members: GetUserDto[];
+  readonly members: GetUsernameDto[];
 }

@@ -10,10 +10,7 @@ import { PackageService } from "./package.service";
 @Module({
   controllers: [PackageController],
   providers: [PackageService],
-  imports: [
-    TypeOrmModule.forFeature([Package, Language]),
-    TredModule,
-    GroupModule,
-  ],
+  imports: [TypeOrmModule.forFeature([Package, Language]), TredModule],
+  exports: [PackageService],
 })
 export class PackageModule {}
