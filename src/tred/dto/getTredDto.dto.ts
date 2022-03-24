@@ -1,36 +1,22 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { IsNotEmpty } from "class-validator";
+import { GetGroupDto } from "src/group/dto/getGroupDto.dto";
+import { GetPublicGroupDto } from "src/group/dto/getPublicGroupsDto.dto";
 import { Group } from "src/group/group.entity";
 import { Package } from "src/package/entities/package.entity";
-import { User } from "src/users/users.entity";
-import {
-  AfterLoad,
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from "typeorm";
 
-@Entity()
-export class Tred {
-  @AfterLoad()
-  checkDate() {
-    if (this.closeDate && this.closeDate <= new Date(Date.now())) {
-      this.isOpen = false;
-    }
-  }
-
-  @ApiProperty({ example: 1, description: "Уникальный идентификатор" })
-  @PrimaryGeneratedColumn()
+export class GetTredDto {
+  @ApiProperty({
+    example: 1,
+    description: "ID треда",
+  })
   id: number;
 
   @ApiProperty({
     example: "Задача про огурцы",
     description: "Название треда",
   })
-  @Column({ nullable: false })
+  @IsNotEmpty()
   name: string;
 
   @ApiProperty({
@@ -38,28 +24,29 @@ export class Tred {
       "На вход подаются два огурца разной длины. Необходимо посчитать сумму длин этих огурцов",
     description: "Описание",
   })
-  @Column("text", { nullable: false })
+  @IsNotEmpty()
   description: string;
 
   @ApiProperty({
     example: true,
     description: "Могут ли участники сообщества смотреть посылки друг друга",
+    default: false,
+    required: false,
   })
-  @Column({ nullable: false, default: false })
   isPublic: boolean;
 
   @ApiProperty({
     example: 10,
     description: "Ограничение по числу посылок для одного пользователя",
+    default: 10,
+    required: false,
   })
-  @Column({ nullable: false, default: 100 })
   maxPackages: number;
 
   @ApiProperty({
     example: true,
     description: "Можно ли отправлять посылки в тред",
   })
-  @Column({ nullable: false, default: true })
   isOpen: boolean;
 
   @ApiProperty({
@@ -67,42 +54,35 @@ export class Tred {
     description:
       "Дата закрытия треда (можно использовать new Date(Date.now() + 10000)toUTCString())",
   })
-  @Column({ nullable: true, default: null })
   closeDate: Date;
 
   @ApiProperty({
     example: {
-      id: 1,
-      name: "Сообщество 1",
-      descrtiption: "Крутое сообщвество для крутых парней",
-      isOpen: true,
+      id: 7,
+      name: "Group 1",
     },
-    description: "Группа, в которой находится тред",
+    description: "Группа треда",
     type: () => Group,
-  })
-  @ManyToOne(() => Group, (group: Group) => group.treds, {
-    onDelete: "CASCADE",
   })
   group: Group;
 
   @ApiProperty({
     example: [
       {
-        id: 5,
-        code: "print(1)",
-        review: null,
-        date: "2022-03-18T13:43:59.425Z",
-      },
-      {
-        id: 6,
-        code: "print(1)",
-        review: null,
-        date: "2022-03-18T13:43:59.425Z",
+        id: 7,
+        date: "2022-03-24T12:30:10.471Z",
+        user: {
+          id: 4,
+          name: "ponchik009",
+        },
+        language: {
+          id: 1,
+          name: "python",
+        },
       },
     ],
     description: "Посылки треда",
-    type: [Package],
+    type: () => [Package],
   })
-  @OneToMany(() => Package, (pack: Package) => pack.tred)
   packages: Package[];
 }

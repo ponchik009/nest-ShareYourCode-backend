@@ -19,9 +19,14 @@ export class TredService {
 
     const tred = this.tredRepository.create({
       ...dto,
-      group,
+      group: {
+        id: group.id,
+        name: group.name,
+      },
+      packages: [],
     });
     await this.tredRepository.save(tred);
+
     return tred;
   }
 
@@ -36,14 +41,23 @@ export class TredService {
   async getById(tredId: number) {
     const tred = await this.tredRepository
       .createQueryBuilder("tred")
-      .select(["tred", "group", "package", "user"])
+      .select([
+        "tred",
+        "group.id",
+        "group.name",
+        "package.date",
+        "package.id",
+        "user",
+        "language",
+      ])
       .leftJoin("tred.group", "group")
       .leftJoin("tred.packages", "package")
       .leftJoin("package.user", "user")
+      .leftJoin("package.language", "language")
       .where({ id: tredId })
       .getOne();
 
-    console.log(tred);
+    // console.log(tred);
 
     if (!tred) {
       throw new HttpException("Тред не найден!", HttpStatus.NOT_FOUND);

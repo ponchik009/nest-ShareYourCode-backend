@@ -15,15 +15,8 @@ export class GetUserDto {
   readonly name: string;
 
   @ApiProperty({
-    example: [
-      {
-        id: 1,
-        name: "Сообщество 1",
-        descrtiption: "Крутое сообщвество для крутых парней",
-        isOpen: true,
-      },
-    ],
-    description: "Сообщества пользователя",
+    example: true,
+    description: "Открытый или закрытый аккаунт",
   })
-  readonly groups: GetGroupDto[];
+  readonly isPublic: boolean;
 }

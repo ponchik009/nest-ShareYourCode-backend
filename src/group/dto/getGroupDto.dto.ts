@@ -1,6 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { GetUserDto } from "src/auth/dto/getUserDto.dto";
 import { GetUsernameDto } from "src/auth/dto/getUsernameDto.dto";
+import { Tred } from "src/tred/tred.entity";
+import { User } from "src/users/users.entity";
 
 export class GetGroupDto {
   @ApiProperty({
@@ -29,6 +31,18 @@ export class GetGroupDto {
   readonly isOpen: boolean;
 
   @ApiProperty({
+    example: "aaaa-bbbb-cccc-dddd",
+    description: "Пригласительная ссылка",
+  })
+  readonly inviteLink: string;
+
+  @ApiProperty({
+    example: "Tue, 15 Mar 2022 06:25:11 GMT",
+    description: "Дата окончания действия пригласительной ссылки",
+  })
+  readonly inviteLinkEndDate: Date;
+
+  @ApiProperty({
     example: [
       {
         id: 1,
@@ -36,16 +50,34 @@ export class GetGroupDto {
       },
     ],
     description: "Члены сообщества",
+    type: () => [User],
   })
-  readonly members: GetUsernameDto[];
+  readonly members: User[];
 
   @ApiProperty({
     example: {
       id: 1,
       name: "ponchik009",
     },
-
     description: "Администратор сообщества",
+    type: () => User,
   })
-  readonly admin: GetUsernameDto;
+  readonly admin: User;
+
+  @ApiProperty({
+    example: [
+      {
+        id: 3,
+        name: "Tred 1",
+        description: "cool tred for cool guys",
+        isPublic: true,
+        maxPackages: 1,
+        isOpen: true,
+        closeDate: "2022-03-30T06:25:11.000Z",
+      },
+    ],
+    description: "Треды сообщества",
+    type: () => [Tred],
+  })
+  readonly treds: Tred[];
 }

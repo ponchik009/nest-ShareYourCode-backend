@@ -13,7 +13,8 @@ export class CreateCommentDto {
   @ApiProperty({
     example: 3,
     description: "ID посылки",
+    type: () => Package,
   })
   @IsNotEmpty()
-  packageId: number;
+  package: Package;
 }

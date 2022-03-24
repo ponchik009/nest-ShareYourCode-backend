@@ -20,6 +20,8 @@ export class CreateGroupDto {
   @ApiProperty({
     example: true,
     description: "Доступно ли сообщество в глобальном поиске",
+    required: false,
+    default: true,
   })
   @IsNotEmpty()
   readonly isOpen: boolean;

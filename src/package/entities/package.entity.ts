@@ -45,6 +45,7 @@ export class Package {
       closeDate: "2022-03-15T06:25:11.000Z",
     },
     description: "Тред, в котором находится посылка",
+    type: () => Tred,
   })
   @ManyToOne(() => Tred, (tred: Tred) => tred.packages)
   tred: Tred;
@@ -55,6 +56,7 @@ export class Package {
       name: "ponchik009",
     },
     description: "Автор посылки",
+    type: () => User,
   })
   @ManyToOne(() => User, (user: User) => user.packages)
   user: User;
@@ -65,6 +67,7 @@ export class Package {
       name: "python",
     },
     description: "Язык, на котором написан код",
+    type: () => Language,
   })
   @ManyToOne(() => Language, (language: Language) => language.packages)
   language: Language;
@@ -84,6 +87,7 @@ export class Package {
       },
     ],
     description: "Язык, на котором написан код",
+    type: () => [Comment],
   })
   @OneToMany(() => Comment, (comment: Comment) => comment.pack)
   comments: Comment[];

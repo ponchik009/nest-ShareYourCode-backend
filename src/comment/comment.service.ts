@@ -16,7 +16,7 @@ export class CommentService {
 
   async create(dto: CreateCommentDto, user: User) {
     const pack = await this.packageService.getPackageWithRights(
-      dto.packageId,
+      dto.package.id,
       user
     );
 
@@ -32,10 +32,7 @@ export class CommentService {
       pack: {
         id: comment.pack.id,
       },
-      user: {
-        id: comment.user.id,
-        name: comment.user.name,
-      },
+      user: undefined,
     };
   }
 }

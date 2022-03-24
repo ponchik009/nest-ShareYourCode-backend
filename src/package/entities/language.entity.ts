@@ -38,6 +38,7 @@ export class Language {
       },
     ],
     description: "Поылки на этом языке",
+    type: () => [Package],
   })
   @OneToMany(() => Package, (pack: Package) => pack.language)
   packages: Package[];

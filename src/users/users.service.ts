@@ -26,8 +26,7 @@ export class UsersService {
   async getByEmail(email: string) {
     const user = await this.userRepository
       .createQueryBuilder("user")
-      .select(["user.id", "user.name", "user.password", "group"])
-      .leftJoin("user.groups", "group")
+      .select(["user.id", "user.name", "user.password", "user.isPublic"])
       .where("user.email = :email", { email })
       .getOne();
 
@@ -39,9 +38,11 @@ export class UsersService {
   }
 
   async getById(id: number) {
-    const user = await this.userRepository.findOne(id, {
-      relations: ["groups"],
-    });
+    const user = await this.userRepository
+      .createQueryBuilder("user")
+      .select(["user.id", "user.name", "user.isPublic"])
+      .where("user.id = :id", { id })
+      .getOne();
 
     if (!user) {
       throw new HttpException("Пользователь не найден!", HttpStatus.NOT_FOUND);

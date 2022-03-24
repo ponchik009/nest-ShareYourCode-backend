@@ -23,6 +23,7 @@ export class CreatePackageDto {
       name: "python",
     },
     description: "Язык программирования",
+    type: () => Language,
   })
   @IsNotEmpty()
   language: Language;

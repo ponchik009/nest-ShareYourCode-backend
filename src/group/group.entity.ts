@@ -37,7 +37,7 @@ export class Group {
     example: true,
     description: "Доступно ли сообщество в глобальном поиске",
   })
-  @Column({ nullable: false })
+  @Column({ nullable: false, default: true })
   isOpen: boolean;
 
   @ApiProperty({
@@ -57,6 +57,7 @@ export class Group {
   @ApiProperty({
     example: { id: 1, email: "123@mail.ru" },
     description: "Администратор сообщества",
+    type: () => User,
   })
   @ManyToOne(() => User)
   admin: User;
@@ -67,6 +68,7 @@ export class Group {
       { id: 2, email: "321@mail.ru" },
     ],
     description: "Члены сообщества",
+    type: () => [User],
   })
   @ManyToMany(() => User, (user: User) => user.groups)
   @JoinTable()
@@ -83,6 +85,7 @@ export class Group {
       closeDate: new Date(),
     },
     description: "Треды сообщества",
+    type: () => [Tred],
   })
   @OneToMany(() => Tred, (tred: Tred) => tred.group, { onDelete: "CASCADE" })
   treds: Tred[];

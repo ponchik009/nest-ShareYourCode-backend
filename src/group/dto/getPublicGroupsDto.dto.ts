@@ -21,21 +21,4 @@ export class GetPublicGroupDto {
     description: "Описание",
   })
   readonly description: string;
-
-  @ApiProperty({
-    example: true,
-    description: "Доступно ли сообщество в глобальном поиске",
-  })
-  readonly isOpen: boolean;
-
-  @ApiProperty({
-    example: [
-      {
-        id: 1,
-        name: "ponchik009",
-      },
-    ],
-    description: "Члены сообщества",
-  })
-  readonly members: GetUsernameDto[];
 }

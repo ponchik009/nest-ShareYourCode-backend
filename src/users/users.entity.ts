@@ -36,7 +36,7 @@ export class User {
   password: string;
 
   @ApiProperty({ example: true, description: "Является ли аккаунт публичным" })
-  @Column({ nullable: false, default: true })
+  @Column({ nullable: false, default: true, select: false })
   isPublic: boolean;
 
   @ApiProperty({
@@ -45,6 +45,7 @@ export class User {
       { id: 2, name: "Сообщество 2" },
     ],
     description: "Сообщества пользователя",
+    type: () => [Group],
   })
   @ManyToMany(() => Group, (group: Group) => group.members)
   groups: Group[];
@@ -65,6 +66,7 @@ export class User {
       },
     ],
     description: "Посылки пользователя",
+    type: () => [Package],
   })
   @OneToMany(() => Package, (pack: Package) => pack.user)
   packages: Package[];
@@ -81,6 +83,7 @@ export class User {
       },
     ],
     description: "Комментарии пользователя",
+    type: () => [Comment],
   })
   @OneToMany(() => Comment, (comment: Comment) => comment.user)
   comments: Comment[];

@@ -22,13 +22,29 @@ export class PackageService {
       throw new HttpException("Тред уже закрыт!", HttpStatus.BAD_REQUEST);
     }
 
+    if (
+      tred.packages.filter((pack) => pack.user.id === user.id).length >=
+      tred.maxPackages
+    ) {
+      throw new HttpException(
+        "Превышено максимальное число посылок!",
+        HttpStatus.BAD_REQUEST
+      );
+    }
+
     const pack = this.packageRepository.create({
       ...dto,
-      tred,
+      tred: {
+        id: tred.id,
+        name: tred.name,
+      },
       user,
       date: new Date(Date.now()),
     });
     await this.packageRepository.save(pack);
+
+    pack.tred.packages = undefined;
+    pack.tred.group = undefined;
 
     return pack;
   }
@@ -41,7 +57,13 @@ export class PackageService {
       const tred = await this.tredService.getTredWithRights(pack.tred.id, user);
     }
 
-    return pack;
+    return {
+      ...pack,
+      tred: {
+        id: pack.tred.id,
+        name: pack.tred.name,
+      },
+    };
   }
 
   async getPackageWithRights(id: number, user: User) {

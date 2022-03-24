@@ -34,6 +34,7 @@ export class Comment {
       date: "2022-03-18T13:43:59.425Z",
     },
     description: "Посылка, к которой прикреплен комментарий",
+    type: () => Package,
   })
   @ManyToOne(() => Package, (pack: Package) => pack.comments)
   pack: Package;
@@ -44,6 +45,7 @@ export class Comment {
       name: "ponchik009",
     },
     description: "Автор комментария",
+    type: () => User,
   })
   @ManyToOne(() => User, (user: User) => user.comments)
   user: User;

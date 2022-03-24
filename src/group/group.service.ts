@@ -6,6 +6,7 @@ import { Repository } from "typeorm";
 import { CreateGroupDto } from "./dto/createGrouDto.dto";
 import { Group } from "./group.entity";
 import { v4 as uuidv4 } from "uuid";
+import { group } from "console";
 
 @Injectable()
 export class GroupService {
@@ -25,8 +26,7 @@ export class GroupService {
   async getPublic() {
     return this.groupRepository
       .createQueryBuilder("group")
-      .select(["group", "user.name", "user.id"])
-      .leftJoin("group.members", "user")
+      .select(["group.id", "group.name", "group.description"])
       .where("group.isOpen = true")
       .getMany();
   }
@@ -44,6 +44,17 @@ export class GroupService {
     return group;
   }
 
+  async getMy(user: User) {
+    const groups = await this.groupRepository
+      .createQueryBuilder("group")
+      .select(["group.id", "group.name", "group.description"])
+      .leftJoin("group.members", "user")
+      .where("user.id = :id", { id: user.id })
+      .getMany();
+
+    return groups;
+  }
+
   async getById(id: number) {
     const group = await this.groupRepository.findOne(id, {
       relations: ["admin", "members", "treds"],
@@ -58,7 +69,7 @@ export class GroupService {
 
   async enterTheGroup(group: number | Group, user: User) {
     const groupFromDb =
-      typeof group === "number" ? await this.getById(group) : group;
+      typeof group !== "object" ? await this.getById(group) : group;
 
     if (groupFromDb.members.some((member) => member.id === user.id)) {
       throw new HttpException(
@@ -105,12 +116,19 @@ export class GroupService {
   async generateLink(id: number, user: User) {
     const group = await this.getGroupWithRights(id, user);
 
-    group.inviteLink = uuidv4();
-    group.inviteLinkEndDate = new Date(Date.now() + 3600 * 24 * 3 * 1000); // ms
+    const inviteLink = uuidv4();
+    const inviteLinkEndDate = new Date(Date.now() + 3600 * 24 * 3 * 1000); // ms
 
-    await this.groupRepository.save(group);
+    await this.groupRepository.save({
+      ...group,
+      inviteLink,
+      inviteLinkEndDate,
+    });
 
-    return group;
+    return {
+      inviteLink,
+      inviteLinkEndDate,
+    };
   }
 
   async inviteToTheGroup(groupId: number, admin: User, user: User) {

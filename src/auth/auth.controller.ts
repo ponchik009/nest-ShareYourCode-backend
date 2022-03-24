@@ -16,6 +16,7 @@ import { GetUserDto } from "./dto/getUserDto.dto";
 import { LocalAuthenticationGuard } from "./guard/localAuthGuard.guard";
 import RequestWithUser from "./interface/requestWithUser.interface";
 import JwtAuthenticationGuard from "./guard/jwtAuthGuard.guard";
+import { LoginDto } from "./dto/login.dto";
 
 @ApiTags("Авторизация")
 @Controller("auth")
@@ -24,7 +25,7 @@ export class AuthController {
 
   @ApiOperation({ summary: "Вход в аккаунт" })
   @ApiResponse({ status: 200, type: GetUserDto })
-  @ApiBody({ type: CreateUserDto })
+  @ApiBody({ type: LoginDto })
   @HttpCode(200)
   @UseGuards(LocalAuthenticationGuard)
   @Post("/login")
@@ -36,7 +37,8 @@ export class AuthController {
   }
 
   @ApiOperation({ summary: "Регистрация пользователя" })
-  @ApiResponse({ status: 200, type: GetUserDto })
+  @ApiResponse({ status: 200, type: () => GetUserDto })
+  @ApiBody({ type: () => CreateUserDto })
   @Post("/register")
   register(@Body() userDto: CreateUserDto) {
     return this.authService.register(userDto);
@@ -52,7 +54,7 @@ export class AuthController {
   }
 
   @ApiOperation({ summary: "Авторизация пользователя" })
-  @ApiResponse({ status: 200, type: GetUserDto })
+  @ApiResponse({ status: 200, type: () => GetUserDto })
   @UseGuards(JwtAuthenticationGuard)
   @Get()
   authenticate(@Req() request: RequestWithUser) {
