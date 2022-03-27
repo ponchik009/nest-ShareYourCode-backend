@@ -11,8 +11,8 @@ export class CommentController {
   constructor(private commentService: CommentService) {}
 
   @ApiOperation({ summary: "Добавление комментария в тред" })
-  @ApiResponse({ status: 201, type: () => CreateCommentDto })
-  @ApiBody({ type: () => CreateCommentDto })
+  @ApiResponse({ status: 201, type: CreateCommentDto })
+  @ApiBody({ type: CreateCommentDto })
   @UseGuards(JwtAuthenticationGuard)
   @Post()
   async create(@Body() dto: CreateCommentDto, @Req() req: RequestWithUser) {

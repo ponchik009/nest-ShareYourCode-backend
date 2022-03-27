@@ -20,8 +20,8 @@ export class TredController {
   constructor(private tredService: TredService) {}
 
   @ApiOperation({ summary: "Создание треда" })
-  @ApiResponse({ status: 201, type: () => GetTredDto })
-  @ApiBody({ type: () => CreateTredDto })
+  @ApiResponse({ status: 201, type: GetTredDto })
+  @ApiBody({ type: CreateTredDto })
   @UseGuards(JwtAuthenticationGuard)
   @Post()
   async create(@Body() dto: CreateTredDto, @Req() req: RequestWithUser) {
@@ -29,7 +29,7 @@ export class TredController {
   }
 
   @ApiOperation({ summary: "Получение информации о треде" })
-  @ApiResponse({ status: 200, type: () => GetTredDto })
+  @ApiResponse({ status: 200, type: GetTredDto })
   @UseGuards(JwtAuthenticationGuard)
   @Get("/:id")
   async get(@Param("id") id: number, @Req() req: RequestWithUser) {

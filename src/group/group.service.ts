@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/users/users.entity";
 import { UsersService } from "src/users/users.service";
-import { Repository } from "typeorm";
+import { ILike, Like, Repository } from "typeorm";
 import { CreateGroupDto } from "./dto/createGrouDto.dto";
 import { Group } from "./group.entity";
 import { v4 as uuidv4 } from "uuid";
@@ -23,13 +23,15 @@ export class GroupService {
     return group;
   }
 
-  async getPublic() {
+  async getPublic(query: string = "") {
     return await this.groupRepository
       .createQueryBuilder("group")
       .select(["group.id", "group.name", "group.description"])
       .loadRelationCountAndMap("group.membersCount", "group.members")
       // .orderBy("membersCount", "DESC") // сортировка отрабатывает сама? втф
-      .where("group.isOpen = true")
+      .where("group.isOpen = true and group.name like :query", {
+        query: `%${query}%`,
+      })
       .getMany();
   }
 

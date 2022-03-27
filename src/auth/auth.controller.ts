@@ -37,8 +37,8 @@ export class AuthController {
   }
 
   @ApiOperation({ summary: "Регистрация пользователя" })
-  @ApiResponse({ status: 200, type: () => GetUserDto })
-  @ApiBody({ type: () => CreateUserDto })
+  @ApiResponse({ status: 200, type: GetUserDto })
+  @ApiBody({ type: CreateUserDto })
   @Post("/register")
   register(@Body() userDto: CreateUserDto) {
     return this.authService.register(userDto);

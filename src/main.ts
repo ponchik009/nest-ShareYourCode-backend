@@ -16,10 +16,10 @@ async function start() {
     .setVersion("0.0.1")
     .addTag("ponchik009")
     .build();
+  app.setGlobalPrefix("api");
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("/api/docs", app, document);
 
-  app.setGlobalPrefix("api");
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
 

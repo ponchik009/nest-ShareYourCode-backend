@@ -5,6 +5,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Req,
   Res,
   UseGuards,
@@ -26,8 +27,8 @@ export class GroupController {
   constructor(private groupService: GroupService) {}
 
   @ApiOperation({ summary: "Создание сообщества" })
-  @ApiResponse({ status: 201, type: () => GetGroupDto })
-  @ApiBody({ type: () => CreateGroupDto })
+  @ApiResponse({ status: 201, type: GetGroupDto })
+  @ApiBody({ type: CreateGroupDto })
   @UseGuards(JwtAuthenticationGuard)
   @Post()
   async create(@Body() dto: CreateGroupDto, @Req() req: RequestWithUser) {
@@ -37,15 +38,15 @@ export class GroupController {
   }
 
   @ApiOperation({ summary: "Получение публичных сообществ" })
-  @ApiResponse({ status: 200, type: () => [GetPublicGroupDto] })
+  @ApiResponse({ status: 200, type: [GetPublicGroupDto] })
   @Get("/public")
-  async getPublic() {
-    const groups = await this.groupService.getPublic();
+  async getPublic(@Query("query") query: string) {
+    const groups = await this.groupService.getPublic(query);
     return groups;
   }
 
   @ApiOperation({ summary: "Получение своих сообществ" })
-  @ApiResponse({ status: 200, type: () => [GetPublicGroupDto] })
+  @ApiResponse({ status: 200, type: [GetPublicGroupDto] })
   @UseGuards(JwtAuthenticationGuard)
   @Get("/my")
   async getMy(@Req() req: RequestWithUser) {
@@ -54,7 +55,7 @@ export class GroupController {
   }
 
   @ApiOperation({ summary: "Вступление в сообщество" })
-  @ApiResponse({ status: 200, type: () => GetGroupDto })
+  @ApiResponse({ status: 200, type: GetGroupDto })
   @UseGuards(JwtAuthenticationGuard)
   @Patch("/enter/:id")
   async enterTheGroup(@Req() req: RequestWithUser, @Param("id") id: number) {
@@ -65,7 +66,7 @@ export class GroupController {
   @ApiOperation({
     summary: "Вступление в сообщество по пригласительной ссылке",
   })
-  @ApiResponse({ status: 200, type: () => GetGroupDto })
+  @ApiResponse({ status: 200, type: GetGroupDto })
   @UseGuards(JwtAuthenticationGuard)
   @Patch("/fromLink/:uuid")
   async enterFromLink(
@@ -78,7 +79,7 @@ export class GroupController {
   @ApiOperation({
     summary: "Генерация пригласительной ссылки",
   })
-  @ApiResponse({ status: 200, type: () => GetInviteLinkDto })
+  @ApiResponse({ status: 200, type: GetInviteLinkDto })
   @UseGuards(JwtAuthenticationGuard)
   @Patch("/generate/:id")
   async generateLink(@Req() req: RequestWithUser, @Param("id") id: number) {
@@ -86,8 +87,8 @@ export class GroupController {
   }
 
   @ApiOperation({ summary: "Приглашение в сообщество" })
-  @ApiResponse({ status: 200, type: () => GetGroupDto })
-  @ApiBody({ type: () => GetUserDto })
+  @ApiResponse({ status: 200, type: GetGroupDto })
+  @ApiBody({ type: GetUserDto })
   @UseGuards(JwtAuthenticationGuard)
   @Patch("/invite/:id")
   async inviteToTheGroup(
@@ -114,7 +115,7 @@ export class GroupController {
 
   @ApiOperation({ summary: "Кик из сообщества" })
   @ApiResponse({ status: 200 })
-  @ApiBody({ type: () => GetUserDto })
+  @ApiBody({ type: GetUserDto })
   @UseGuards(JwtAuthenticationGuard)
   @Patch("/kick/:id")
   async kickOutOfTheGroup(
@@ -131,8 +132,8 @@ export class GroupController {
   }
 
   @ApiOperation({ summary: "Делегирование обязанностей администратора" })
-  @ApiResponse({ status: 200, type: () => GetGroupDto })
-  @ApiBody({ type: () => GetUserDto })
+  @ApiResponse({ status: 200, type: GetGroupDto })
+  @ApiBody({ type: GetUserDto })
   @UseGuards(JwtAuthenticationGuard)
   @Patch("/delegate/:id")
   async delegateAdministrator(
@@ -149,7 +150,7 @@ export class GroupController {
   }
 
   @ApiOperation({ summary: "Получение информации о сообществе" })
-  @ApiResponse({ status: 200, type: () => GetGroupDto })
+  @ApiResponse({ status: 200, type: GetGroupDto })
   @Get("/:id")
   @UseGuards(JwtAuthenticationGuard)
   getGroup(@Param("id") id: number, @Req() req: RequestWithUser) {

@@ -22,8 +22,8 @@ export class PackageController {
   constructor(private packageService: PackageService) {}
 
   @ApiOperation({ summary: "Создание посылки" })
-  @ApiResponse({ status: 201, type: () => GetPackageDto })
-  @ApiBody({ type: () => CreatePackageDto })
+  @ApiResponse({ status: 201, type: GetPackageDto })
+  @ApiBody({ type: CreatePackageDto })
   @UseGuards(JwtAuthenticationGuard)
   @Post()
   async create(@Body() dto: CreatePackageDto, @Req() req: RequestWithUser) {
@@ -31,8 +31,8 @@ export class PackageController {
   }
 
   @ApiOperation({ summary: "Добавление ревью кода" })
-  @ApiResponse({ status: 200, type: () => GetPackageDto })
-  @ApiBody({ type: () => AddReviewDto })
+  @ApiResponse({ status: 200, type: GetPackageDto })
+  @ApiBody({ type: AddReviewDto })
   @UseGuards(JwtAuthenticationGuard)
   @Patch("/review")
   async addReview(@Body() dto: AddReviewDto, @Req() req: RequestWithUser) {
@@ -40,7 +40,7 @@ export class PackageController {
   }
 
   @ApiOperation({ summary: "Получение посылки" })
-  @ApiResponse({ status: 200, type: () => GetPackageDto })
+  @ApiResponse({ status: 200, type: GetPackageDto })
   @UseGuards(JwtAuthenticationGuard)
   @Get("/:id")
   async get(@Param("id") id: number, @Req() req: RequestWithUser) {
