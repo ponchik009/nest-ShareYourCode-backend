@@ -21,4 +21,10 @@ export class GetPublicGroupDto {
     description: "Описание",
   })
   readonly description: string;
+
+  @ApiProperty({
+    example: 100500,
+    description: "Количество людей в сообществе",
+  })
+  readonly membersCount: number;
 }

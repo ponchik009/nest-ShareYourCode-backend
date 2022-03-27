@@ -24,9 +24,11 @@ export class GroupService {
   }
 
   async getPublic() {
-    return this.groupRepository
+    return await this.groupRepository
       .createQueryBuilder("group")
       .select(["group.id", "group.name", "group.description"])
+      .loadRelationCountAndMap("group.membersCount", "group.members")
+      // .orderBy("membersCount", "DESC") // сортировка отрабатывает сама? втф
       .where("group.isOpen = true")
       .getMany();
   }
