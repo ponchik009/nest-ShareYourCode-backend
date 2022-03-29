@@ -36,6 +36,7 @@ services:
       - docker.env
     volumes:
       - .:/app
+      - /app/node_modules
     ports:
     - 8001:8001
     - 9229:9229

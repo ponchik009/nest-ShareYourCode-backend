@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import fs from "fs";
-import { v4 } from "uuid";
-import { spawnSync } from "child_process";
+const fs = require("fs");
+const { v4 } = require("uuid");
+const { spawnSync } = require("child_process");
 import { Language } from "src/package/entities/language.entity";
 
 @Injectable()
@@ -12,7 +12,7 @@ export class FilesService {
     cmd_input: string,
     language: Language
   ) {
-    const script_path = "/home/syc/run.sh";
+    const script_path = "/app/run.sh";
     const dirname = "/tmp/syc";
 
     const code_filename = dirname + "/" + v4();
