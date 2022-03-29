@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import fs from "fs";
-import { v4 } from "uuid";
-import { spawnSync } from "child_process";
+const fs = require("fs");
+const { v4 } = require("uuid");
+const { spawnSync } = require("child_process");
 import { Language } from "src/package/entities/language.entity";
 
 @Injectable()
@@ -36,7 +36,7 @@ export class FilesService {
     await this.writeFiles(code_filename, code, input_filename, input);
 
     // вызываем скрипт
-    // console.log("execute script");
+    console.log("execute script");
     const ls = spawnSync(script_path, [
       code_filename,
       input_filename,
@@ -54,7 +54,7 @@ export class FilesService {
     ]);
 
     // читаем с выходных файлов
-    // console.log("read from files");
+    console.log("read from files");
     const [out, out_err, out_meta] = await this.readFiles(
       out_filename,
       out_err_filename,
@@ -62,7 +62,7 @@ export class FilesService {
     );
 
     // удаляем файлы
-    // console.log("delete files");
+    console.log("delete files");
     await this.deleteFiles(
       code_filename,
       input_filename,
