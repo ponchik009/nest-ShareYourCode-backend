@@ -12,7 +12,7 @@ export class FilesService {
     cmd_input: string,
     language: Language
   ) {
-    const script_path = "/home/syc/run.sh";
+    const script_path = "/home/syc/syc_backend/nest-ShareYourCode-backend/run.sh";
     const dirname = "/tmp/syc";
 
     const code_filename = dirname + "/" + v4();
@@ -34,7 +34,7 @@ export class FilesService {
 
     // пишем файлы
     await this.writeFiles(code_filename, code, input_filename, input);
-
+    
     // вызываем скрипт
     console.log("execute script");
     const ls = spawnSync(script_path, [
@@ -52,6 +52,7 @@ export class FilesService {
       size_2,
       ...cmd,
     ]);
+    console.log(ls);
 
     // читаем с выходных файлов
     console.log("read from files");
@@ -82,7 +83,7 @@ export class FilesService {
     if (!fs.existsSync(dirname)) {
       fs.mkdirSync(dirname);
     }
-    fs.chmodSync(dirname, 0x700);
+    fs.chmodSync(dirname, 0o700);
   }
 
   private async writeFiles(
