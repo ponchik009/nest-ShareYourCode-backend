@@ -1,18 +1,21 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { FilesService } from "src/files/files.service";
 import { GroupService } from "src/group/group.service";
 import { TredService } from "src/tred/tred.service";
 import { User } from "src/users/users.entity";
 import { Repository } from "typeorm";
 import { AddReviewDto } from "./dto/addReviewDto.dto";
 import { CreatePackageDto } from "./dto/createPackageDto.dto";
+import { ProgramDto } from "../files/dto/programDto.dto";
 import { Package } from "./entities/package.entity";
 
 @Injectable()
 export class PackageService {
   constructor(
     @InjectRepository(Package) private packageRepository: Repository<Package>,
-    private tredService: TredService
+    private tredService: TredService,
+    private filesSservice: FilesService
   ) {}
 
   async create(dto: CreatePackageDto, user: User) {
@@ -93,5 +96,14 @@ export class PackageService {
     await this.packageRepository.save(pack);
 
     return pack;
+  }
+
+  async execute(program: ProgramDto) {
+    return await this.filesSservice.execute(
+      program.code,
+      program.input,
+      program.cmd_input,
+      program.language
+    );
   }
 }

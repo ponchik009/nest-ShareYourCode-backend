@@ -12,6 +12,7 @@ import { Package } from "./package/entities/package.entity";
 import { Language } from "./package/entities/language.entity";
 import { CommentModule } from "./comment/comment.module";
 import { Comment } from "./comment/comment.entity";
+import { FilesModule } from './files/files.module';
 
 require("dotenv").config();
 
@@ -34,6 +35,7 @@ require("dotenv").config();
     TredModule,
     PackageModule,
     CommentModule,
+    FilesModule,
   ],
   controllers: [],
   providers: [],

@@ -14,7 +14,9 @@ import RequestWithUser from "src/auth/interface/requestWithUser.interface";
 import { AddReviewDto } from "./dto/addReviewDto.dto";
 import { CreatePackageDto } from "./dto/createPackageDto.dto";
 import { GetPackageDto } from "./dto/getPackageDto.dto";
+import { ProgramDto } from "../files/dto/programDto.dto";
 import { PackageService } from "./package.service";
+import { GetProgramResultDto } from "src/files/dto/getProgramResultDto.dto";
 
 @ApiTags("Посылки")
 @Controller("package")
@@ -45,5 +47,14 @@ export class PackageController {
   @Get("/:id")
   async get(@Param("id") id: number, @Req() req: RequestWithUser) {
     return await this.packageService.getPackage(id, req.user);
+  }
+
+  @ApiOperation({ summary: "Компиляция скрипта" })
+  @ApiResponse({ status: 200, type: GetProgramResultDto })
+  @ApiBody({ type: ProgramDto })
+  @UseGuards(JwtAuthenticationGuard)
+  @Post("/execute")
+  async execute(@Body() program: ProgramDto) {
+    return await this.packageService.execute(program);
   }
 }
