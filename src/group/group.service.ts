@@ -52,6 +52,7 @@ export class GroupService {
     const groups = await this.groupRepository
       .createQueryBuilder("group")
       .select(["group.id", "group.name", "group.description"])
+      .loadRelationCountAndMap("group.membersCount", "group.members")
       .leftJoin("group.members", "user")
       .where("user.id = :id", { id: user.id })
       .getMany();
