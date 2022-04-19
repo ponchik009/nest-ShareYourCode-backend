@@ -13,8 +13,8 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - G:\docker-family\syc\postgres:/var/lib/postgresql/data
-      # - /data/postgres:/var/lib/postgresql/data
+      # - G:\docker-family\syc\postgres:/var/lib/postgresql/data
+      - /data/postgres:/var/lib/postgresql/data
     env_file:
       - docker.env
     networks:
@@ -28,8 +28,8 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - G:\docker-family\syc\pgadmin:/var/lib/pgadmin
-      # - /data/pgadmin:/var/lib/postgresql/data
+      # - G:\docker-family\syc\pgadmin:/var/lib/pgadmin
+      - /data/pgadmin:/var/lib/postgresql/data
     env_file:
       - docker.env
     networks:

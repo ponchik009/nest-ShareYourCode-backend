@@ -53,6 +53,7 @@ export class FilesService {
       size_2,
       ...cmd,
     ]);
+    console.log(ls);
 
     // читаем с выходных файлов
     console.log("read from files");
@@ -83,7 +84,7 @@ export class FilesService {
     if (!fs.existsSync(dirname)) {
       fs.mkdirSync(dirname);
     }
-    fs.chmodSync(dirname, 0x700);
+    fs.chmodSync(dirname, 0o700);
   }
 
   private async writeFiles(
