@@ -1,8 +1,9 @@
 import { Injectable } from "@nestjs/common";
+import { Language } from "src/package/entities/language.entity";
 const fs = require("fs");
 const { v4 } = require("uuid");
 const { spawnSync } = require("child_process");
-import { Language } from "src/package/entities/language.entity";
+require("dotenv").config();
 
 @Injectable()
 export class FilesService {
@@ -12,8 +13,8 @@ export class FilesService {
     cmd_input: string,
     language: Language
   ) {
-    const script_path = "/home/syc/run.sh";
-    const dirname = "/tmp/syc";
+    const script_path = process.env.SCRIPT_PATH;
+    const dirname = process.env.TMP_DIR;
 
     const code_filename = dirname + "/" + v4();
     const input_filename = dirname + "/" + v4();

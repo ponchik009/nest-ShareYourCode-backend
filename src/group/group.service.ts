@@ -53,6 +53,7 @@ export class GroupService {
       .createQueryBuilder("group")
       .select(["group.id", "group.name", "group.description"])
       .leftJoin("group.members", "user")
+      // .loadRelationCountAndMap("group.members", "membersCount")
       .where("user.id = :id", { id: user.id })
       .getMany();
 
