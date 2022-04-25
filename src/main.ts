@@ -22,7 +22,7 @@ async function start() {
 
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
-  app.enableCors({ credentials: true, origin: 'http://localhost:3000' });
+  app.enableCors({ credentials: true, origin: 'http://localhost:9000' });
 
   await app.listen(PORT, () => console.log(`Server starts on port ${PORT}`));
 }

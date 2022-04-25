@@ -16,7 +16,7 @@ services:
       # - G:\docker-family\syc\postgres:/var/lib/postgresql/data
       - /data/postgres:/var/lib/postgresql/data
     env_file:
-      - docker.env
+      - .env
     networks:
       - postgres
 
@@ -26,12 +26,12 @@ services:
     container_name: pgadmin
     image: dpage/pgadmin4
     ports:
-      - "8080:80"
+      - "9000:80"
     volumes:
       # - G:\docker-family\syc\pgadmin:/var/lib/pgadmin
       - /data/pgadmin:/var/lib/postgresql/data
     env_file:
-      - docker.env
+      - .env
     networks:
       - postgres
   
