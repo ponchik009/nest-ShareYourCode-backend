@@ -38,9 +38,12 @@ export class GroupService {
   async getGroup(id: number, user: User) {
     const group = await this.getById(id);
 
-    if (!group.members.some((member) => member.id === user.id)) {
+    if (
+      !group.members.some((member) => member.id === user.id) &&
+      !group.isOpen
+    ) {
       throw new HttpException(
-        "Пользователь не состоит в сообществе",
+        "Группа закрытая, ее материалы могут просматривать только участники",
         HttpStatus.FORBIDDEN
       );
     }
@@ -73,20 +76,17 @@ export class GroupService {
     return group;
   }
 
-  async enterTheGroup(group: number | Group, user: User) {
-    const groupFromDb =
-      typeof group !== "object" ? await this.getById(group) : group;
-
-    if (groupFromDb.members.some((member) => member.id === user.id)) {
+  async enterTheGroup(group: Group, user: User) {
+    if (group.members.some((member) => member.id === user.id)) {
       throw new HttpException(
         "Пользователь уже состоит в сообществе!",
         HttpStatus.BAD_REQUEST
       );
     }
 
-    groupFromDb.members.push(user);
-    await this.groupRepository.save(groupFromDb);
-    return groupFromDb;
+    group.members.push(user);
+    await this.groupRepository.save(group);
+    return group;
   }
 
   async enterThePublicGroup(groupId: number, user: User) {
@@ -99,7 +99,7 @@ export class GroupService {
       );
     }
 
-    return await this.enterTheGroup(groupId, user);
+    return await this.enterTheGroup(group, user);
   }
 
   async enterFromLink(link: string, user: User) {
