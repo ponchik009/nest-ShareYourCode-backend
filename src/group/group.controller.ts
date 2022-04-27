@@ -12,6 +12,7 @@ import {
 } from "@nestjs/common";
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { GetUserDto } from "src/auth/dto/getUserDto.dto";
+import { LoginDto } from "src/auth/dto/login.dto";
 import JwtAuthenticationGuard from "src/auth/guard/jwtAuthGuard.guard";
 import RequestWithUser from "src/auth/interface/requestWithUser.interface";
 import { User } from "src/users/users.entity";
@@ -88,7 +89,7 @@ export class GroupController {
 
   @ApiOperation({ summary: "Приглашение в сообщество" })
   @ApiResponse({ status: 200, type: GetGroupDto })
-  @ApiBody({ type: GetUserDto })
+  @ApiBody({ type: LoginDto })
   @UseGuards(JwtAuthenticationGuard)
   @Patch("/invite/:id")
   async inviteToTheGroup(

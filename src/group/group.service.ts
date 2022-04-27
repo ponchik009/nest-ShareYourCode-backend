@@ -139,7 +139,7 @@ export class GroupService {
 
   async inviteToTheGroup(groupId: number, admin: User, user: User) {
     const group = await this.getGroupWithRights(groupId, admin);
-    const userFromDB = await this.userService.getById(user.id);
+    const userFromDB = await this.userService.getByEmail(user.email);
 
     if (!userFromDB.isPublic) {
       throw new HttpException(

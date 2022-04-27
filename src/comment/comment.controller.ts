@@ -10,7 +10,7 @@ import { CreateCommentDto } from "./dto/createCommentDto.dto";
 export class CommentController {
   constructor(private commentService: CommentService) {}
 
-  @ApiOperation({ summary: "Добавление комментария в тред" })
+  @ApiOperation({ summary: "Добавление комментария к посылке" })
   @ApiResponse({ status: 201, type: CreateCommentDto })
   @ApiBody({ type: CreateCommentDto })
   @UseGuards(JwtAuthenticationGuard)
