@@ -102,20 +102,15 @@ export class GroupController {
   }
 
   @ApiOperation({ summary: "Выход из сообщества" })
-  @ApiResponse({ status: 200 })
+  @ApiResponse({ status: 200, type: GetGroupDto })
   @UseGuards(JwtAuthenticationGuard)
   @Patch("/leave/:id")
-  async leaveTheGroup(
-    @Req() req: RequestWithUser,
-    @Param("id") id: number,
-    @Res() response
-  ) {
-    await this.groupService.leaveTheGroup(id, req.user);
-    return response.status(200);
+  async leaveTheGroup(@Req() req: RequestWithUser, @Param("id") id: number) {
+    return await this.groupService.leaveTheGroup(id, req.user);
   }
 
   @ApiOperation({ summary: "Кик из сообщества" })
-  @ApiResponse({ status: 200 })
+  @ApiResponse({ status: 200, type: GetGroupDto })
   @ApiBody({ type: GetUserDto })
   @UseGuards(JwtAuthenticationGuard)
   @Patch("/kick/:id")

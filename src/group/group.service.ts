@@ -197,8 +197,8 @@ export class GroupService {
     if (group.admin.id === userId) {
       group.admin = group.members[0];
     }
-
-    await this.groupRepository.save(group);
+    return await this.groupRepository.save(group);
+    console.log(group);
     return group;
   }
 
