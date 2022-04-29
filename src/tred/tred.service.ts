@@ -35,7 +35,13 @@ export class TredService {
     // костыль?
     const group = await this.groupService.getGroup(tred.group.id, user);
 
-    return tred;
+    return {
+      ...tred,
+      group: {
+        ...tred.group,
+        admin: group.admin,
+      },
+    };
   }
 
   async getById(tredId: number) {
