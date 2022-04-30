@@ -28,7 +28,7 @@ export class FilesService {
     const time = "3";
     const size = "65536";
     const size_2 = "65536";
-    const cmd = cmd_input.split(" ");
+    const cmd = cmd_input.split(" ") || "";
 
     // создаем директорию
     this.createDir(dirname);
@@ -91,7 +91,7 @@ export class FilesService {
     code_filename: string,
     code: string,
     input_filename: string,
-    input: string
+    input: string = ""
   ) {
     const codeFile = this.writeFileAsync(code_filename, code);
     const inputFile = this.writeFileAsync(input_filename, input);

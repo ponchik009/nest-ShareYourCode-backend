@@ -14,7 +14,6 @@ export class ProgramDto {
     example: "1 2 3",
     description: "Стандартный поток ввода",
   })
-  @IsNotEmpty()
   input: string;
 
   @ApiProperty({
@@ -32,6 +31,5 @@ export class ProgramDto {
     example: "1 2 3",
     description: "Входные параметры командной строки",
   })
-  @IsNotEmpty()
   cmd_input: string;
 }
