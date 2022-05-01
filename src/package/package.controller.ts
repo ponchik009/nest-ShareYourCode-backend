@@ -17,6 +17,7 @@ import { GetPackageDto } from "./dto/getPackageDto.dto";
 import { ProgramDto } from "../files/dto/programDto.dto";
 import { PackageService } from "./package.service";
 import { GetProgramResultDto } from "src/files/dto/getProgramResultDto.dto";
+import { Language } from "./entities/language.entity";
 
 @ApiTags("Посылки")
 @Controller("package")
@@ -56,5 +57,13 @@ export class PackageController {
   @Post("/execute")
   async execute(@Body() program: ProgramDto) {
     return await this.packageService.execute(program);
+  }
+
+  @ApiOperation({ summary: "Получение списка языков" })
+  @ApiResponse({ status: 200, type: Language })
+  @UseGuards(JwtAuthenticationGuard)
+  @Post("/language")
+  async getLanguages() {
+    return await this.packageService.getLanguages();
   }
 }

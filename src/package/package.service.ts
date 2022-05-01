@@ -9,11 +9,13 @@ import { AddReviewDto } from "./dto/addReviewDto.dto";
 import { CreatePackageDto } from "./dto/createPackageDto.dto";
 import { ProgramDto } from "../files/dto/programDto.dto";
 import { Package } from "./entities/package.entity";
+import { Language } from "./entities/language.entity";
 
 @Injectable()
 export class PackageService {
   constructor(
     @InjectRepository(Package) private packageRepository: Repository<Package>,
+    @InjectRepository(Language) private languageRepo: Repository<Language>,
     private tredService: TredService,
     private filesSservice: FilesService
   ) {}
@@ -105,5 +107,9 @@ export class PackageService {
       program.cmd_input,
       program.language
     );
+  }
+
+  async getLanguages() {
+    return await this.languageRepo.find();
   }
 }
