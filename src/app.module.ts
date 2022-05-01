@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { Module, OnApplicationBootstrap } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { User } from "./users/users.entity";
 import { UsersModule } from "./users/users.module";
@@ -12,7 +12,9 @@ import { Package } from "./package/entities/package.entity";
 import { Language } from "./package/entities/language.entity";
 import { CommentModule } from "./comment/comment.module";
 import { Comment } from "./comment/comment.entity";
-import { FilesModule } from './files/files.module';
+import { FilesModule } from "./files/files.module";
+import { SeedModule } from "./seed/seed.module";
+import { SeedService } from "./seed/seed.service";
 
 require("dotenv").config();
 
@@ -36,8 +38,15 @@ require("dotenv").config();
     PackageModule,
     CommentModule,
     FilesModule,
+    SeedModule,
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements OnApplicationBootstrap {
+  constructor(private readonly seedService: SeedService) {}
+
+  async onApplicationBootstrap() {
+    this.seedService.seedLanguages();
+  }
+}
