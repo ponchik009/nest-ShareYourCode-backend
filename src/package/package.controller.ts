@@ -42,6 +42,14 @@ export class PackageController {
     return await this.packageService.addReview(dto, req.user);
   }
 
+  @ApiOperation({ summary: "Получение списка языков" })
+  @ApiResponse({ status: 200, type: [Language] })
+  @UseGuards(JwtAuthenticationGuard)
+  @Get("/language")
+  async getLanguages() {
+    return await this.packageService.getLanguages();
+  }
+
   @ApiOperation({ summary: "Получение посылки" })
   @ApiResponse({ status: 200, type: GetPackageDto })
   @UseGuards(JwtAuthenticationGuard)
@@ -57,13 +65,5 @@ export class PackageController {
   @Post("/execute")
   async execute(@Body() program: ProgramDto) {
     return await this.packageService.execute(program);
-  }
-
-  @ApiOperation({ summary: "Получение списка языков" })
-  @ApiResponse({ status: 200, type: Language })
-  @UseGuards(JwtAuthenticationGuard)
-  @Post("/language")
-  async getLanguages() {
-    return await this.packageService.getLanguages();
   }
 }

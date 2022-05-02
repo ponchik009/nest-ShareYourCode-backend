@@ -109,7 +109,7 @@ export class PackageService {
     );
   }
 
-  async getLanguages() {
+  async getLanguages(): Promise<Language[]> {
     return await this.languageRepo.find();
   }
 }
