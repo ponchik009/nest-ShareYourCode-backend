@@ -15,6 +15,8 @@ import { Comment } from "./comment/comment.entity";
 import { FilesModule } from "./files/files.module";
 import { SeedModule } from "./seed/seed.module";
 import { SeedService } from "./seed/seed.service";
+import { ServeStaticModule } from "@nestjs/serve-static";
+import { join } from "path";
 
 require("dotenv").config();
 
@@ -30,6 +32,9 @@ require("dotenv").config();
       entities: [User, Group, Tred, Package, Language, Comment],
       synchronize: true,
       autoLoadEntities: true,
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, "..", "client"),
     }),
     UsersModule,
     AuthModule,
