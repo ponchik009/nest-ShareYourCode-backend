@@ -65,7 +65,6 @@ container_id=$(docker create \
 	--read-only \
 	--network none \
 	--memory "$memory_limit" \
-	--ulimit nproc=1 \
 	--ulimit cpu="$cpu_limit" \
 	--stop-signal KILL \
 	--interactive \

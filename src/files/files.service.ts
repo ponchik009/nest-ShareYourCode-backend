@@ -22,10 +22,10 @@ export class FilesService {
     const out_err_filename = dirname + "/" + v4();
     const meta_out_filename = dirname + "/" + v4();
 
-    const memory_limit = "25m";
-    const cpu_limit = "1";
-    const tmpfs = "0";
-    const time = "3";
+    const memory_limit = "50m";
+    const cpu_limit = "3";
+    const tmpfs = "25m";
+    const time = "10";
     const size = "65536";
     const size_2 = "65536";
     const cmd = cmd_input.split(" ") || "";
