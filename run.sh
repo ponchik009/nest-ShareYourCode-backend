@@ -47,12 +47,12 @@ case "$language" in
 "c-compile")
 	container_code_file="/main.c"
 	container_image="gcc"
-	container_command=("bash" "-c" "gcc /main.c && cat ./a.out")
+	container_command=("bash" "-c" "gcc /main.c && ./a.out")
 	;;
 "c++-compile")
 	container_code_file="/main.cpp"
 	container_image="gcc"
-	container_command=("bash" "-c" "g++ /main.cpp && cat ./a.out")
+	container_command=("bash" "-c" "g++ /main.cpp && ./a.out")
 	;;
 *)
 	echo "Неизвестный язык" >&2
