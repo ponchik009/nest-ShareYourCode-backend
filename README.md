@@ -20,13 +20,13 @@ Linux (тестировалось на Debian), Windows. В случае Windows
 ## Инструкция по сборке
 
 ### Клоинрование репозитория
-git clone https://github.com/ponchik009/nest-ShareYourCode-backend/
+$ git clone https://github.com/ponchik009/nest-ShareYourCode-backend/
 
 ### Переход в папку проекта
-cd nest-ShareYourCode-backend
+$ cd nest-ShareYourCode-backend
 
 ### Установка пакетов
-npm install
+$ npm install
 
 ### Найтрока конфигурации
 <p>В корне проекта создаем файл .env</p>
@@ -50,14 +50,14 @@ npm install
 </ul>
 
 ### Запуск контейнера с базой данных и pgadmin
-docker-compose up &
+$ docker-compose up &
 
 ###  Добавление фронтенда
 <p>Если вам нужен фронтенд (сайт), то вам необходимо произвести его сборку: https://github.com/ponchik009/react-ShareYourCode-frontend</p>
 <p>После получения папки build, необходимо перенести её в корень ДАННОГО проекта и переименовать на <b>client</b></p>
 
 ### Запуск приложения
-npm run start:dev
+$ npm run start:dev
 
 ### Итого
 После выполнения всех вышеперечисленных действий, на указанном порту будет запущено приложение.
