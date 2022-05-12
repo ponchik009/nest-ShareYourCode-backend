@@ -36,15 +36,15 @@ $ npm install
   <li>POSTRES_HOST=<сеть, в которой находится база данных (в нашем случае localhost)></li>
   <li>POSTGRES_PORT=<порт, на котором будет висеть база данных (например, 5432)></li>
   <li>POSTGRES_USER=<пользователь базы данных (например, postgres)></li>
-  <li>POSTGRES_PASSWORD=<пароль к пользователю базы данных (например, admin></li>
+  <li>POSTGRES_PASSWORD=<пароль к пользователю базы данных (например, admin)></li>
   <li>POSTGRES_DB=<название базы данных (например, syc)></li>
   <li>POSTGRES_DATA_DIR=<путь к директории, в которой контейнер будет хранить данные постгреса на хостовой машине (например, /data/postgres)></li>
   <li>PORPGADMIN_DEFAULT_EMAIL=< email для использования pgadmin (например, admin@admin.com)></li>
   <li>PGADMIN_DEFAULT_PASSWORD=<пароль для pgadmin (например, admin)></li>
   <li>PGADMIN_PORT=<порт для pgadmin (например, 9000)></li>
-  <li>PGADMIN_DATA_DIR==<путь к директории, в которой контейнер будет хранить данные постгреса на хостовой машине (например, /data/pgadmin)></li>
+  <li>PGADMIN_DATA_DIR=<путь к директории, в которой контейнер будет хранить данные постгреса на хостовой машине (например, /data/pgadmin)></li>
   <li>JWT_SECRET = <секретный ключ для jwt-токена (например, 'aboba228')></li>
-  <li>JWT_EXPIRATION_TIME = <время жизни jwt-токена (например, '31536000')></li>
+  <li>JWT_EXPIRATION_TIME = <время жизни jwt-токена (например, '31536000' - год)></li>
   <li>SCRIPT_PATH=<путь до скрипта, компилирующего код (изначально он находится в корне, указываем "./run.sh")></li>
   <li>TMP_DIR=<путь к директории для создания промежуточных файлов во время компиляции (например, "/etc/tmp")></li>
 </ul>
